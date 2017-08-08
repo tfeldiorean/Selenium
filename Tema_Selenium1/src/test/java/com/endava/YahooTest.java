@@ -39,6 +39,7 @@ public void goToPage(){
 @Test
 public void sendEmail() throws InterruptedException {
 
+    //Log in
     WebElement usernameField = webDriver.findElement(By.xpath("//input[@id='login-username']"));
     usernameField.sendKeys("entest2017");
 
@@ -51,11 +52,12 @@ public void sendEmail() throws InterruptedException {
     WebElement signInButton = webDriver.findElement(By.xpath("//button[@id='login-signin']"));
     signInButton.click();
 
+    //Compose
     WebElement composeButton = webDriver.findElement(By.xpath("//li[@id='Compose']//span"));
     composeButton.click();
 
     WebElement toButton = webDriver.findElement(By.xpath("//input[@id='to-field']"));
-    toButton.sendKeys("feldiorean_traian@yahoo.com");
+    toButton.sendKeys("entest2@yahoo.com");
 
     WebElement subjectField = webDriver.findElement(By.xpath("//input[@id='subject-field']"));
     subjectField.sendKeys("Test");
@@ -63,6 +65,7 @@ public void sendEmail() throws InterruptedException {
     WebElement textField = webDriver.findElement(By.xpath("//div[@id='rtetext']"));
     textField.sendKeys("Content test");
 
+    //Send
     WebElement sendButton = webDriver.findElement(By.xpath("//span[@data-action='send']"));
     sendButton.click();
 
@@ -73,6 +76,7 @@ public void sendEmail() throws InterruptedException {
     WebElement profileButton = webDriver.findElement(By.xpath("//div[@id='uhWrapper']//td[@id='uhNavWrapper']//li[@id='yucs-profile']"));
     profileButton.click();
 
+    //Signout
     WebElement signoutButton = webDriver.findElement(By.xpath("//li[a[@id='yucs-signout']]"));
     signoutButton.click();
 
@@ -82,14 +86,15 @@ public void sendEmail() throws InterruptedException {
     WebElement addAccount = webDriver.findElement(By.xpath("//*[@id='manage-account']//a[@class] [@role='button']"));
     addAccount.click();
 
+    //Log in with the second account
     WebElement usernameField2 = webDriver.findElement(By.xpath("//input[@id='login-username']"));
-    usernameField2.sendKeys("feldiorean_traian");
+    usernameField2.sendKeys("entest2");
 
     WebElement buttonNext2 = webDriver.findElement(By.xpath("//input[@id='login-signin']"));
     buttonNext2.click();
 
     WebElement passwordField2 = webDriver.findElement(By.xpath("//input[@id='login-passwd']"));
-    passwordField2.sendKeys("**************");
+    passwordField2.sendKeys("Chrome23");
 
     WebElement signInButton2 = webDriver.findElement(By.xpath("//button[@id='login-signin']"));
     signInButton2.click();
@@ -98,25 +103,29 @@ public void sendEmail() throws InterruptedException {
     gotoMailButton.click();
 
     //wait 5 minutes until mail is received
-    Thread.sleep(300000);
+    //Thread.sleep(300000)
+    //The email is already sent, to skip the time I // the wait. But you can undo and test it:)
     WebElement receivedMessage = webDriver.findElement(By.xpath("//div[@id='msg-list']//div[2]//div[@class='subj']//span[@title='Test']"));
     Assert.assertEquals(receivedMessage.getText(), "Test");
 
     receivedMessage.click();
 
+    //Verify email
     WebElement emailContent = webDriver.findElement(By.xpath("//div[@id='shellinner']//div[@class='thread-body']"));
     Assert.assertEquals(emailContent.getText(), "Content test");
 
     WebElement sentButton = webDriver.findElement(By.xpath("//li[@id='Sent']"));
     sentButton.click();
 
-    //inconsistent requirement -Verify with an assert the name of the person which sent the latest mail
-    //I verified the email of the person which I have sent the last email. Is it ok?
-    //also i cannot find xpath of las email
-//    WebElement sentLastEmail = webDriver.findElement(By.xpath("//div[@id='msg-list']//div[2]//div[@class='from']//div[@title='feldiorean_traian@yahoo.com']"));
-//    Assert.assertEquals(sentLastEmail.getText(), "Traian Feldiorean");
+    //Verify Sent
+    //I've managed to select the person that sent the last, in the sent compartment. It is possible for the xpath to change but after 3 tests it's ok
 
-    //why i cannot call the same profileButton and signoutButton
+    WebElement sentLastEmail = webDriver.findElement(By.xpath(".//div[@class='list-view-items-page']/div[2]/div/div[2]/div[1]/div[@class='name-list']/div[@class='name first']"));
+    Assert.assertEquals(sentLastEmail.getText(),"Entest En");
+
+    //Why i cannot call the same profileButton and signoutButton?
+
+    Thread.sleep(3000);
     WebElement profileButton2 = webDriver.findElement(By.xpath("//div[@id='uhWrapper']//td[@id='uhNavWrapper']//li[@id='yucs-profile']"));
     profileButton2.click();
 
